@@ -13,6 +13,20 @@ jobs:
       - name: Descompactar
         run: unzip -q ninjaclient-atualizado.zip
 
+      - name: Corrigir settings.gradle
+        working-directory: ninjaclient
+        run: |
+          cat > settings.gradle <<'EOF'
+          pluginManagement {
+              repositories {
+                  maven { url = 'https://maven.fabricmc.net/' }
+                  gradlePluginPortal()
+                  mavenCentral()
+              }
+          }
+          rootProject.name = 'ninjaclient'
+          EOF
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
